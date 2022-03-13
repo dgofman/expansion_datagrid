@@ -150,7 +150,7 @@ void main() {
 
 ## See Also
 
-https://pub.dev/packages/framework
-https://pub.dev/packages/l10n_flutter
-https://pub.dev/packages/form_components
-https://pub.dev/packages/expansion_datagrid
+- https://pub.dev/packages/framework
+- https://pub.dev/packages/l10n_flutter
+- https://pub.dev/packages/form_components
+- https://pub.dev/packages/expansion_datagrid
