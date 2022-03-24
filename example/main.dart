@@ -145,12 +145,12 @@ class MyApp extends StatelessWidget {
   }
 
   List<Header> getHeaders() => [
-        Header('Name', 'name', 4),
-        Header('Since', 'since_date', 2, width: 450, format: 'date'),
-        Header('Start Date', 'start_date', 2, width: 800, format: 'date'),
-        Header('End Date', 'end_date', 2, width: 800, format: 'date'),
-        Header('Status', 'is_active', 2, width: 300, format: 'status'),
-      ];
+    Header('Name', 'name', 4),
+    Header('Since', 'since_date', 2, width: 450, format: 'date'),
+    Header('Start Date', 'start_date', 2, width: 800, format: 'date'),
+    Header('End Date', 'end_date', 2, width: 800, format: 'date'),
+    Header('Status', 'is_active', 2, width: 300, format: 'status'),
+  ];
 }
 
 class TestDataGrid extends ExpansionDataGrid {

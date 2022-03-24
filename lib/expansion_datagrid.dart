@@ -352,6 +352,7 @@ class _ExpansionDataGridState extends State<ExpansionDataGrid> {
 class DataGridModel {
   late List<Header> headers;
   late List<dynamic> data;
+  // ignore: library_private_types_in_public_api
   late _ExpansionDataGridState? state;
   DataGridModel() : state = null, data = [];
 }
