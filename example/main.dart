@@ -2,7 +2,13 @@ import 'package:expansion_datagrid/expansion_datagrid.dart';
 import 'package:flutter/material.dart';
 
 final testData = [
-  {'name': 'ORG1', 'since_date': '2021-08-02', 'start_date': '2021-08-03', 'end_date': '2021-08-04', 'is_active': true},
+  {
+    'name': 'ORG1',
+    'since_date': '2021-08-02',
+    'start_date': '2021-08-03',
+    'end_date': '2021-08-04',
+    'is_active': true
+  },
   {
     'name': 'ORG2',
     'since_date': '2020-02-01',
@@ -10,8 +16,20 @@ final testData = [
     'end_date': '2021-08-05',
     'is_active': false
   },
-  {'name': 'ORG3', 'since_date': '2021-08-02', 'start_date': '2021-08-03', 'end_date': '2021-08-04', 'is_active': true},
-  {'name': 'ORG4', 'since_date': '2020-02-01', 'start_date': '2021-08-04', 'end_date': '2021-08-05', 'is_active': true},
+  {
+    'name': 'ORG3',
+    'since_date': '2021-08-02',
+    'start_date': '2021-08-03',
+    'end_date': '2021-08-04',
+    'is_active': true
+  },
+  {
+    'name': 'ORG4',
+    'since_date': '2020-02-01',
+    'start_date': '2021-08-04',
+    'end_date': '2021-08-05',
+    'is_active': true
+  },
   {
     'name': 'ORG5',
     'since_date': '2021-08-02',
@@ -19,7 +37,13 @@ final testData = [
     'end_date': '2021-08-04',
     'is_active': false
   },
-  {'name': 'ORG6', 'since_date': '2020-02-01', 'start_date': '2021-08-04', 'end_date': '2021-08-05', 'is_active': true},
+  {
+    'name': 'ORG6',
+    'since_date': '2020-02-01',
+    'start_date': '2021-08-04',
+    'end_date': '2021-08-05',
+    'is_active': true
+  },
   {
     'name': 'ORG7',
     'since_date': '2021-08-02',
@@ -27,7 +51,13 @@ final testData = [
     'end_date': '2021-08-04',
     'is_active': false
   },
-  {'name': 'ORG8', 'since_date': '2020-02-01', 'start_date': '2021-08-04', 'end_date': '2021-08-05', 'is_active': true},
+  {
+    'name': 'ORG8',
+    'since_date': '2020-02-01',
+    'start_date': '2021-08-04',
+    'end_date': '2021-08-05',
+    'is_active': true
+  },
   {
     'name': 'ORG9',
     'since_date': '2021-08-02',
@@ -126,9 +156,13 @@ class MyApp extends StatelessWidget {
           dataTableTheme: DataGridThemeData(
               headingAlignment: Alignment.centerLeft,
               headingRowColor: MaterialStateProperty.all(Colors.grey),
-              headingTextStyle: const TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.bold),
+              headingTextStyle: const TextStyle(
+                  color: Colors.black,
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold),
               dataRowColor: MaterialStateProperty.all(const Color(0xFFFBFBFD)),
-              dataTextStyle: const TextStyle(color: Colors.black54, fontSize: 14),
+              dataTextStyle:
+                  const TextStyle(color: Colors.black54, fontSize: 14),
               dividerThickness: 1,
               headingRowHeight: 50,
               decoration: const BoxDecoration(
@@ -145,12 +179,12 @@ class MyApp extends StatelessWidget {
   }
 
   List<Header> getHeaders() => [
-    Header('Name', 'name', 4),
-    Header('Since', 'since_date', 2, width: 450, format: 'date'),
-    Header('Start Date', 'start_date', 2, width: 800, format: 'date'),
-    Header('End Date', 'end_date', 2, width: 800, format: 'date'),
-    Header('Status', 'is_active', 2, width: 300, format: 'status'),
-  ];
+        Header('Name', 'name', 4),
+        Header('Since', 'since_date', 2, width: 450, format: 'date'),
+        Header('Start Date', 'start_date', 2, width: 800, format: 'date'),
+        Header('End Date', 'end_date', 2, width: 800, format: 'date'),
+        Header('Status', 'is_active', 2, width: 300, format: 'status'),
+      ];
 }
 
 class TestDataGrid extends ExpansionDataGrid {
@@ -165,7 +199,8 @@ class TestDataGrid extends ExpansionDataGrid {
   TestDataGrid({Key? key}) : super(key: key);
 
   @override
-  Alignment getRowAlignment(Header header) => (header.format == 'status') ? Alignment.center : Alignment.centerLeft;
+  Alignment getRowAlignment(Header header) =>
+      (header.format == 'status') ? Alignment.center : Alignment.centerLeft;
 
   @override
   String getRowValue(dynamic val, RowItem rowItem, String? format) {
@@ -178,7 +213,8 @@ class TestDataGrid extends ExpansionDataGrid {
   }
 
   @override
-  Widget getRowComponent(BuildContext context, dynamic val, RowItem rowItem, Header header) {
+  Widget getRowComponent(
+      BuildContext context, dynamic val, RowItem rowItem, Header header) {
     if (header.dataField != 'name') {
       return super.getRowComponent(context, val, rowItem, header);
     }
@@ -202,7 +238,8 @@ class TestDataGrid extends ExpansionDataGrid {
       data.add(rowItem.data[field.dataField]);
     }
     return createExpandPanel(context, editFields, data, rowItem,
-        onDelete: (BuildContext context, RowItem rowItem) => deleteRowItem(rowItem));
+        onDelete: (BuildContext context, RowItem rowItem) =>
+            deleteRowItem(rowItem));
   }
 
   @override

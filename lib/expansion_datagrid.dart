@@ -15,17 +15,18 @@ abstract class ExpansionDataGrid extends StatefulWidget {
   final int crossAxisWidth;
   final DataGridModel _model;
 
-  ExpansionDataGrid({
-    Key? key,
-    bool? isAlwaysShown,
-    Duration? expansionAnimationDuration,
-    int? insertIndex,
-    int? crossAxisWidth,
-    ScrollController? controller
-  })  : _model = DataGridModel(),
+  ExpansionDataGrid(
+      {Key? key,
+      bool? isAlwaysShown,
+      Duration? expansionAnimationDuration,
+      int? insertIndex,
+      int? crossAxisWidth,
+      ScrollController? controller})
+      : _model = DataGridModel(),
         isAlwaysShown = isAlwaysShown ?? kIsWeb,
         crossAxisWidth = crossAxisWidth ?? 300,
-        expansionAnimationDuration = expansionAnimationDuration ?? const Duration(milliseconds: 1000),
+        expansionAnimationDuration =
+            expansionAnimationDuration ?? const Duration(milliseconds: 1000),
         scrollController = controller,
         super(key: key);
 
@@ -54,30 +55,41 @@ abstract class ExpansionDataGrid extends StatefulWidget {
   }
 
   static Color getHeadingRowColor(ThemeData theme) {
-    return theme.dataTableTheme.headingRowColor?.resolve(<MaterialState>{})
-        ?? theme.colorScheme.secondary;
+    return theme.dataTableTheme.headingRowColor?.resolve(<MaterialState>{}) ??
+        theme.colorScheme.secondary;
   }
 
   List<Header> get headers => _model.headers;
   List<dynamic> get data => _model.data;
-  void insertRow(RowItem rowItem, [int index = 0 /* -1 to last index */]) => _model.state?.addRowItem(rowItem, index);
-  void editRowItem(RowItem rowItem, dynamic data) => _model.state?.editRowItem(rowItem, data);
+  void insertRow(RowItem rowItem, [int index = 0 /* -1 to last index */]) =>
+      _model.state?.addRowItem(rowItem, index);
+  void editRowItem(RowItem rowItem, dynamic data) =>
+      _model.state?.editRowItem(rowItem, data);
   void deleteRowItem(RowItem rowItem) => _model.state?.deleteRowItem(rowItem);
   Alignment getRowAlignment(Header header) => Alignment.centerLeft;
-  String getRowValue(dynamic val, RowItem rowItem, String? format) => '${val ?? ''}';
-  Widget getRowComponent(BuildContext context, dynamic val, RowItem rowItem, Header header) =>
-      Text(getRowValue(val, rowItem, header.format), style: Theme.of(context).dataTableTheme.dataTextStyle);
-  Widget getEditComponent(BuildContext context, dynamic data, RowItem rowItem, String? format) =>
-      Text(getRowValue(data, rowItem, format), overflow: TextOverflow.ellipsis, maxLines: 2, style: Theme.of(context).dataTableTheme.dataTextStyle);
+  String getRowValue(dynamic val, RowItem rowItem, String? format) =>
+      '${val ?? ''}';
+  Widget getRowComponent(
+          BuildContext context, dynamic val, RowItem rowItem, Header header) =>
+      Text(getRowValue(val, rowItem, header.format),
+          style: Theme.of(context).dataTableTheme.dataTextStyle);
+  Widget getEditComponent(BuildContext context, dynamic data, RowItem rowItem,
+          String? format) =>
+      Text(getRowValue(data, rowItem, format),
+          overflow: TextOverflow.ellipsis,
+          maxLines: 2,
+          style: Theme.of(context).dataTableTheme.dataTextStyle);
 
   Widget getLastHeader(BuildContext context) => Container();
 
-  Widget createRow(BuildContext context, dynamic val, RowItem rowItem, Header header) {
+  Widget createRow(
+      BuildContext context, dynamic val, RowItem rowItem, Header header) {
     return Container(
         key: ValueKey('dg_row_${header.dataField}_${rowItem.rowIndex}'),
         padding: ExpansionDataGrid.rowPadding,
         alignment: getRowAlignment(header),
-        child: Tooltip(message: getRowValue(val, rowItem, header.format),
+        child: Tooltip(
+          message: getRowValue(val, rowItem, header.format),
           child: getRowComponent(context, val, rowItem, header),
         ));
   }
@@ -86,7 +98,8 @@ abstract class ExpansionDataGrid extends StatefulWidget {
     return createExpandPanel(context, [], [], rowItem);
   }
 
-  List<Widget> createControlButtons(BuildContext context, RowItem rowItem, ExpandAction? onEdit, ExpandAction? onDelete) {
+  List<Widget> createControlButtons(BuildContext context, RowItem rowItem,
+      ExpandAction? onEdit, ExpandAction? onDelete) {
     final buttons = <Widget>[];
     if (onEdit != null) {
       buttons.add(IconButton(
@@ -105,7 +118,8 @@ abstract class ExpansionDataGrid extends StatefulWidget {
     return buttons;
   }
 
-  Widget createExpandPanel(BuildContext context, List<FieldInfo> fields, List<dynamic> data, RowItem rowItem,
+  Widget createExpandPanel(BuildContext context, List<FieldInfo> fields,
+      List<dynamic> data, RowItem rowItem,
       {ExpandAction? onEdit, ExpandAction? onDelete}) {
     Size screenSize = MediaQuery.of(context).size;
     final borderSide = ExpansionDataGrid.getBorderSide(Theme.of(context));
@@ -127,25 +141,31 @@ abstract class ExpansionDataGrid extends StatefulWidget {
               ),
               itemCount: fields.length,
               itemBuilder: (context, index) {
-                return createExpandColumn(context, index, fields, data, rowItem);
+                return createExpandColumn(
+                    context, index, fields, data, rowItem);
               }),
-          Row(mainAxisAlignment: MainAxisAlignment.end,
-              children: createControlButtons(context, rowItem, onEdit, onDelete)),
+          Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children:
+                  createControlButtons(context, rowItem, onEdit, onDelete)),
         ],
       ),
     );
   }
 
-  Column createExpandColumn(BuildContext context, int index, List<FieldInfo> fields, List<dynamic> data, RowItem rowItem) {
+  Column createExpandColumn(BuildContext context, int index,
+      List<FieldInfo> fields, List<dynamic> data, RowItem rowItem) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(fields[index].title, style: Theme.of(context).dataTableTheme.headingTextStyle),
+        Text(fields[index].title,
+            style: Theme.of(context).dataTableTheme.headingTextStyle),
         const SizedBox(height: 4),
         Container(
-            key: ValueKey('dg_edit_${fields[index].dataField}_${rowItem.rowIndex}'),
-            child: getEditComponent(context, data[index], rowItem, fields[index].format)
-        )
+            key: ValueKey(
+                'dg_edit_${fields[index].dataField}_${rowItem.rowIndex}'),
+            child: getEditComponent(
+                context, data[index], rowItem, fields[index].format))
       ],
     );
   }
@@ -164,16 +184,19 @@ class _ExpansionDataGridState extends State<ExpansionDataGrid> {
   List<Header> get headers => widget.headers;
   List<dynamic> get data => widget.data;
 
-  void lazyLoading() async {
-    if (!_isLoading && _lastMaxScrollExtent != _scrollController.position.maxScrollExtent &&
-        _scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
+  Future<void> lazyLoading() async {
+    if (!_isLoading &&
+        _lastMaxScrollExtent != _scrollController.position.maxScrollExtent &&
+        _scrollController.position.pixels ==
+            _scrollController.position.maxScrollExtent) {
       _lastMaxScrollExtent = _scrollController.position.maxScrollExtent;
       setState(() {
         _isLoading = true;
       });
       widget.lazyLoad((List<dynamic> data) {
         this.data.addAll(List<Map<String, Object>>.from(data));
-        _items.addAll(data.map((item) => RowItem(item, _items.length)).toList());
+        _items
+            .addAll(data.map((item) => RowItem(item, _items.length)).toList());
         setState(() {
           _isLoading = false;
         });
@@ -271,42 +294,49 @@ class _ExpansionDataGridState extends State<ExpansionDataGrid> {
     BorderSide borderSide = ExpansionDataGrid.getBorderSide(theme);
     AlignmentGeometry? headingAlignment;
     if (theme.dataTableTheme is DataGridThemeData) {
-      headingAlignment = (theme.dataTableTheme as DataGridThemeData).headingAlignment;
+      headingAlignment =
+          (theme.dataTableTheme as DataGridThemeData).headingAlignment;
     }
     return Container(
         decoration: BoxDecoration(
-            color: Colors.white,
-            border: Border.all(color: borderSide.color)
-        ),
+            color: Colors.white, border: Border.all(color: borderSide.color)),
         height: theme.dataTableTheme.headingRowHeight,
         child: Row(
           children: headers
               .mapIndexed((index, item) => Expanded(
-            flex: (screenSize.width < item.minWidth) ? 0 : item.flex,
-            child: LayoutBuilder(
-              builder: (context, constraints) => (screenSize.width < item.minWidth)
-                  ? Container()
-                  : Container(
-                padding: const EdgeInsets.all(8.0),
-                decoration: BoxDecoration(
-                    color: ExpansionDataGrid.getHeadingRowColor(theme),
-                    border: index == 0 || theme.dataTableTheme.dividerThickness == 0 ? null : Border(
-                      left: borderSide.copyWith(color: borderSide.color, width: theme.dataTableTheme.dividerThickness),
-                    )),
-                alignment: headingAlignment,
-                child: Text(item.text,
-                    key: ValueKey<String>('dg_header_${index += 1}'),
-                    textAlign: TextAlign.left,
-                    style: theme.dataTableTheme.headingTextStyle),
-              ),
-            ),
-          ))
+                    flex: (screenSize.width < item.minWidth) ? 0 : item.flex,
+                    child: LayoutBuilder(
+                      builder: (context, constraints) => (screenSize.width <
+                              item.minWidth)
+                          ? Container()
+                          : Container(
+                              padding: const EdgeInsets.all(8.0),
+                              decoration: BoxDecoration(
+                                  color: ExpansionDataGrid.getHeadingRowColor(
+                                      theme),
+                                  border: index == 0 ||
+                                          theme.dataTableTheme
+                                                  .dividerThickness ==
+                                              0
+                                      ? null
+                                      : Border(
+                                          left: borderSide.copyWith(
+                                              color: borderSide.color,
+                                              width: theme.dataTableTheme
+                                                  .dividerThickness),
+                                        )),
+                              alignment: headingAlignment,
+                              child: Text(item.text,
+                                  key: ValueKey<String>(
+                                      'dg_header_${index += 1}'),
+                                  textAlign: TextAlign.left,
+                                  style: theme.dataTableTheme.headingTextStyle),
+                            ),
+                    ),
+                  ))
               .toList()
             ..add(
-              Expanded(
-                flex: 0,
-                child: widget.getLastHeader(context)
-              ),
+              Expanded(flex: 0, child: widget.getLastHeader(context)),
             ),
         ));
   }
@@ -328,20 +358,31 @@ class _ExpansionDataGridState extends State<ExpansionDataGrid> {
       },
       children: _items.map<ExpansionPanel>((RowItem rowItem) {
         return ExpansionPanel(
-          backgroundColor: rowItem.rowIndex % 2 == 0 ? theme.dataTableTheme.dataRowColor?.resolve(<MaterialState>{}) : Colors.white,
+          backgroundColor: rowItem.rowIndex % 2 == 0
+              ? theme.dataTableTheme.dataRowColor?.resolve(<MaterialState>{})
+              : Colors.white,
           headerBuilder: (BuildContext context, bool isExpanded) {
             return Row(
                 children: headers
                     .map((Header header) => Expanded(
-                  flex: (screenSize.width < header.minWidth) ? 0 : header.flex,
-                  child: LayoutBuilder(
-                      builder: (context, constraints) => (screenSize.width < header.minWidth)
-                          ? Column()
-                          : widget.createRow(context, rowItem.data[header.dataField], rowItem, header)),
-                ))
+                          flex: (screenSize.width < header.minWidth)
+                              ? 0
+                              : header.flex,
+                          child: LayoutBuilder(
+                              builder: (context, constraints) =>
+                                  (screenSize.width < header.minWidth)
+                                      ? Column()
+                                      : widget.createRow(
+                                          context,
+                                          rowItem.data[header.dataField],
+                                          rowItem,
+                                          header)),
+                        ))
                     .toList());
           },
-          body: rowItem.isExpanded ? widget.expandRow(context, rowItem) : Container(),
+          body: rowItem.isExpanded
+              ? widget.expandRow(context, rowItem)
+              : Container(),
           isExpanded: rowItem.isExpanded,
         );
       }).toList(),
@@ -354,7 +395,9 @@ class DataGridModel {
   late List<dynamic> data;
   // ignore: library_private_types_in_public_api
   late _ExpansionDataGridState? state;
-  DataGridModel() : state = null, data = [];
+  DataGridModel()
+      : state = null,
+        data = [];
 }
 
 class Header {
@@ -363,7 +406,9 @@ class Header {
   String format;
   int flex;
   double minWidth;
-  Header(this.text, this.dataField, this.flex, {double width = 0, this.format = "string"}) : minWidth = width;
+  Header(this.text, this.dataField, this.flex,
+      {double width = 0, this.format = 'string'})
+      : minWidth = width;
 }
 
 class RowItem {
@@ -379,12 +424,12 @@ class FieldInfo {
   final String? format;
   final GlobalKey<FormFieldState> key;
   final bool required;
-  FieldInfo(this.dataField, {this.format, this.required = false, this.title = ''})
+  FieldInfo(this.dataField,
+      {this.format, this.required = false, this.title = ''})
       : key = GlobalKey<FormFieldState>(debugLabel: dataField);
 }
 
 class DataGridThemeData extends DataTableThemeData {
-
   final Alignment? headingAlignment;
 
   const DataGridThemeData({
@@ -397,14 +442,15 @@ class DataGridThemeData extends DataTableThemeData {
     TextStyle? headingTextStyle,
     double? dividerThickness,
     this.headingAlignment,
-  }) : super(decoration: decoration,
-      dataRowColor: dataRowColor,
-      dataRowHeight: dataRowHeight,
-      dataTextStyle: dataTextStyle,
-      headingRowColor: headingRowColor,
-      headingRowHeight: headingRowHeight,
-      headingTextStyle: headingTextStyle,
-      dividerThickness: dividerThickness);
+  }) : super(
+            decoration: decoration,
+            dataRowColor: dataRowColor,
+            dataRowHeight: dataRowHeight,
+            dataTextStyle: dataTextStyle,
+            headingRowColor: headingRowColor,
+            headingRowHeight: headingRowHeight,
+            headingTextStyle: headingTextStyle,
+            dividerThickness: dividerThickness);
 
   @override
   DataTableThemeData copyWith({
@@ -436,7 +482,8 @@ class DataGridThemeData extends DataTableThemeData {
 }
 
 abstract class IExpandDataGrid {
-  Widget createRow(BuildContext context, dynamic val, RowItem rowItem, Header header);
+  Widget createRow(
+      BuildContext context, dynamic val, RowItem rowItem, Header header);
   Widget expandRow(BuildContext context, RowItem rowItem);
   String? getDisplayValue(dynamic val, Map? data, String? format);
   Future<void> lazyLoad(void Function(List<dynamic>) callback);
