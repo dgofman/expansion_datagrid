@@ -445,7 +445,7 @@ class DataGridThemeData extends DataTableThemeData {
   }) : super(
             decoration: decoration,
             dataRowColor: dataRowColor,
-            dataRowHeight: dataRowHeight,
+            dataRowMinHeight: dataRowHeight,
             dataTextStyle: dataTextStyle,
             headingRowColor: headingRowColor,
             headingRowHeight: headingRowHeight,
@@ -457,6 +457,8 @@ class DataGridThemeData extends DataTableThemeData {
     Decoration? decoration,
     MaterialStateProperty<Color?>? dataRowColor,
     double? dataRowHeight,
+    double? dataRowMinHeight,
+    double? dataRowMaxHeight,
     TextStyle? dataTextStyle,
     MaterialStateProperty<Color?>? headingRowColor,
     double? headingRowHeight,
@@ -465,12 +467,14 @@ class DataGridThemeData extends DataTableThemeData {
     double? columnSpacing,
     double? dividerThickness,
     double? checkboxHorizontalMargin,
-    Alignment? headingAlignment,
+    MaterialStateProperty<MouseCursor?>? headingCellCursor,
+    MaterialStateProperty<MouseCursor?>? dataRowCursor,
   }) {
+    super.copyWith();
     return DataGridThemeData(
       decoration: decoration ?? this.decoration,
       dataRowColor: dataRowColor ?? this.dataRowColor,
-      dataRowHeight: dataRowHeight ?? this.dataRowHeight,
+      dataRowHeight: dataRowHeight ?? this.dataRowMinHeight,
       dataTextStyle: dataTextStyle ?? this.dataTextStyle,
       headingRowColor: headingRowColor ?? this.headingRowColor,
       headingRowHeight: headingRowHeight ?? this.headingRowHeight,
